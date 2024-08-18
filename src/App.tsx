@@ -1,12 +1,13 @@
 import { MenuItemComponent } from "./components/MenuItemComponent"
 import { OrderContentsComponent } from "./components/OrderContentsComponent"
 import { OrderTotalsComponents } from "./components/OrderTotalsComponents"
+import { TipPercentageFormComponent } from "./components/TipPercentageFormComponent"
 import { menuItems } from "./data/db"
 import { useOrder } from "./hooks/useOrder"
 
 function App() {
 
-  const { order, addItem, removeItem } = useOrder()
+  const { order, tip, setTip, addItem, removeItem, placeOrder } = useOrder()
 
   return (
     <>
@@ -28,14 +29,33 @@ function App() {
         </div>
         <div className="border border-dashed
          border-slate-300 p-5 rounded-lg space-y-10">
-          <OrderContentsComponent
-            order={order}
-            removeItem={removeItem}
-          />
 
-          <OrderTotalsComponents
-            order={order}
-          />
+          {order.length ? (
+            <>
+              <OrderContentsComponent
+                order={order}
+                removeItem={removeItem}
+              />
+
+              <TipPercentageFormComponent
+                setTip={setTip}
+                tip={tip}
+              />
+
+              <OrderTotalsComponents
+                order={order}
+                tip={tip}
+                placeOrder={placeOrder}
+              />
+            </>
+          )
+            : (
+              <h2 className="font-black text-4xl">Agrega algo al pedido</h2>
+            )}
+
+
+
+
         </div>
 
       </main>
